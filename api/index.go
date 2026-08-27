@@ -2,12 +2,16 @@ package handler
 
 import (
 	"crypto/sha256"
+	"embed"
 	"encoding/hex"
 	"html/template"
 	"net/http"
 	"strings"
 	"sync"
 )
+
+//go:embed views/*.html
+var templateFiles embed.FS
 
 type URLStore struct {
 	sync.RWMutex
@@ -20,15 +24,32 @@ var store = URLStore{
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
+	path := r.URL.Path
+
+	// Vercel rewrites "/" to "/api"
+	if path == "/api" || path == "/api/" {
+		path = "/"
+	}
+
+	// Vercel rewrites "/shorten" to "/api/shorten"
+	if path == "/api/shorten" {
+		path = "/shorten"
+	}
+
+	// Vercel rewrites "/abc123" to "/api/abc123"
+	if strings.HasPrefix(path, "/api/") {
+		path = strings.TrimPrefix(path, "/api")
+	}
+
 	switch {
-	case r.URL.Path == "/" && r.Method == http.MethodGet:
+	case path == "/" && r.Method == http.MethodGet:
 		showHome(w)
 
-	case r.URL.Path == "/shorten" && r.Method == http.MethodPost:
+	case path == "/shorten" && r.Method == http.MethodPost:
 		shortenURL(w, r)
 
 	case r.Method == http.MethodGet:
-		redirectURL(w, r)
+		redirectURL(w, r, path)
 
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -37,7 +58,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 func showHome(w http.ResponseWriter) {
 
-	tmpl, err := template.ParseFiles("api/views/index.html")
+	tmpl, err := template.ParseFS(templateFiles, "views/index.html")
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -77,7 +98,7 @@ func shortenURL(w http.ResponseWriter, r *http.Request) {
 		"ShortURL": shortURL,
 	}
 
-	tmpl, err := template.ParseFiles("api/views/shorten.html")
+	tmpl, err := template.ParseFS(templateFiles, "views/shorten.html")
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -91,9 +112,9 @@ func shortenURL(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func redirectURL(w http.ResponseWriter, r *http.Request) {
+func redirectURL(w http.ResponseWriter, r *http.Request, path string) {
 
-	shortURL := strings.TrimPrefix(r.URL.Path, "/")
+	shortURL := strings.TrimPrefix(path, "/")
 
 	if shortURL == "" {
 		http.NotFound(w, r)
@@ -105,7 +126,11 @@ func redirectURL(w http.ResponseWriter, r *http.Request) {
 	store.RUnlock()
 
 	if !exists {
-		http.Error(w, "Short URL not found. It may have expired.", http.StatusNotFound)
+		http.Error(
+			w,
+			"Short URL not found. It may have expired.",
+			http.StatusNotFound,
+		)
 		return
 	}
 
