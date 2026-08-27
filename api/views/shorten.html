@@ -1,1 +1,41 @@
-h
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortened</title>
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">-->
+    <style>
+        h1 {
+            background: linear-gradient(90deg, black, darkslateblue);
+            color: aliceblue;
+            width: 100vw;
+            text-align: center;
+            padding: 10px;
+            font-family: fantasy;
+        }
+        #main {
+            display: block;
+            max-width: 800px; /* Restricts the size so margins can work */
+            width: 100%;       /* Ensures responsiveness on smaller screens */
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Shortened URL</h1>
+<div id="main">
+    <p>Your shortened URL is: <a href="/{{.ShortURL}}" target="_blank">{{.ShortURL}}</a></p>
+    <button id="copyButton" data-url="{{.ShortURL}}">Copy to clipboard</button>
+</div>
+</body>
+</html>
+
+<!--<p>Your shortened URL is: <a href="/{{.ShortURL}}" target="_blank">{{.ShortURL}}</a></p>-->
+<!--<button id="copyButton" onclick="navigator.clipboard.writeText(window.location.origin + '/{{.ShortURL}}').then(() => alert('URL copied to clipboard!'))">-->
+<!--    Copy to clipboard-->
+<!--</button>-->
