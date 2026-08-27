@@ -8,25 +8,63 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: "Roboto", sans-serif;
-        }
-        h1 {
-            background: linear-gradient(90deg, black, darkslateblue);
-            color: aliceblue;
-            width: 100vw;
-            text-align: center;
-            padding: 10px;
-            font-family: "Roboto", sans-serif;
-        }
-        #main {
-            display: block;
-            max-width: 800px; /* Restricts the size so margins can work */
-            width: 100%;       /* Ensures responsiveness on smaller screens */
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", sans-serif;
+        background: azure;
+        color: #222;
+    }
+
+    h1 {
+        background: linear-gradient(90deg, midnightblue, darkslateblue);
+        color: aliceblue;
+        width: 100%;
+        text-align: center;
+        padding: 20px 10px;
+        margin: 0 0 30px 0;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+    }
+
+    #main {
+        width: min(90%, 800px);
+        margin: 0 auto;
+        text-align: center;
+        font-family: "Roboto", sans-serif;
+    }
+
+    #main p {
+        font-size: 18px;
+    }
+
+    #main a {
+        color: midnightblue;
+        font-weight: 700;
+        word-break: break-word;
+    }
+
+    #copyButton {
+        color: aliceblue;
+        background: linear-gradient(90deg, midnightblue, darkslateblue);
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 20px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    #copyButton:hover {
+        opacity: 0.9;
+    }
+</style>
 </head>
 <body>
 
