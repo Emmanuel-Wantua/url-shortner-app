@@ -46,55 +46,87 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: "Roboto", sans-serif;
-        }
-        h1 {
-            background: linear-gradient(90deg, midnightblue, darkslateblue);
-            color: aliceblue;
-            width: 100vw;
-            text-align: center;
-            padding: 10px;
-            font-family: "Roboto", sans-serif;
-        }
+    * {
+        box-sizing: border-box;
+    }
 
-        #shortenForm {
-            width: 50%;
-            height: 10vh;
-            padding: 10px;
-            display: block;
-            align-content: center;
-            font-family: "Roboto", sans-serif;
-            background: cornflowerblue;
-            border: 1px solid #d0d0d0;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 1px 1px 5px #474545;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        input {
-            padding: 10px;
-            border-radius: 10px;
-            font-family: "Roboto", sans-serif;
-            font-size: 20px;
-            width: 20vw;
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-        button {
-            color: aliceblue;
-            background: linear-gradient(90deg, midnightblue, darkslateblue);
-            width: 20vw;
-            font-family: "Roboto", sans-serif;
-            font-weight: bold;
-            font-size: 20px;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-    </style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", sans-serif;
+        background: azure;
+        color: #222;
+    }
+
+    h1 {
+        background: linear-gradient(90deg, midnightblue, darkslateblue);
+        color: aliceblue;
+        width: 100%;
+        text-align: center;
+        padding: 20px 10px;
+        margin: 0 0 30px 0;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+    }
+
+    #container {
+        width: 100%;
+    }
+
+    #shortenForm {
+        width: min(90%, 600px);
+        min-height: 120px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-family: "Roboto", sans-serif;
+        background: cornflowerblue;
+        border: 1px solid #d0d0d0;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 1px 1px 5px #474545;
+        margin: 0 auto;
+    }
+
+    input {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-family: "Roboto", sans-serif;
+        font-size: 16px;
+        width: min(100%, 350px);
+        min-width: 0;
+    }
+
+    button {
+        color: aliceblue;
+        background: linear-gradient(90deg, midnightblue, darkslateblue);
+        width: auto;
+        min-width: 110px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 20px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    #result {
+        width: min(90%, 600px);
+        margin: 20px auto;
+        text-align: center;
+        font-family: "Roboto", sans-serif;
+    }
+</style>
 
 <!--    <style>-->
 <!--        body {-->
