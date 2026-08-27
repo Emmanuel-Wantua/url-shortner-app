@@ -1,1 +1,152 @@
-h
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('shortenForm');
+            const resultDiv = document.getElementById('result');
+
+            if (form) {
+                form.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    const url = document.getElementById('urlInput').value;
+
+                    const response = await fetch('/shorten', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        body: `url=${encodeURIComponent(url)}`
+                    });
+
+                    resultDiv.innerHTML = await response.text();
+                });
+            }
+
+            // Global click listener to handle the dynamically injected copy button
+            document.addEventListener('click', function (event) {
+                const copyButton = event.target.closest('#copyButton');
+                if (!copyButton) return;
+
+                const url = copyButton.getAttribute('data-url');
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    // Falls back to origin domain if running outside of localhost
+                    const domain = window.location.origin;
+                    navigator.clipboard.writeText(domain + "/" + url)
+                        .then(() => alert('URL copied to clipboard!'))
+                        .catch(err => console.error('Failed to copy:', err));
+                } else {
+                    alert('Clipboard API not supported in this browser.');
+                }
+            });
+        });
+    </script>
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">-->
+    <style>
+        h1 {
+            background: linear-gradient(90deg, midnightblue, darkslateblue);
+            color: aliceblue;
+            width: 100vw;
+            text-align: center;
+            padding: 10px;
+            font-family: fantasy;
+        }
+
+        #shortenForm {
+            width: 50%;
+            height: 10vh;
+            padding: 10px;
+            display: block;
+            align-content: center;
+            font-family: fantasy, sans-serif;
+            background: cornflowerblue;
+            border: 1px solid #d0d0d0;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 1px 1px 5px #474545;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        input {
+            padding: 10px;
+            border-radius: 10px;
+            font-family: fantasy, sans-serif;
+            font-size: 20px;
+            width: 20vw;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        button {
+            color: aliceblue;
+            background: linear-gradient(90deg, midnightblue, darkslateblue);
+            width: 20vw;
+            font-family: fantasy, sans-serif;
+            font-weight: bold;
+            font-size: 20px;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+    </style>
+
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Inter, sans-serif;-->
+<!--            background: azure;-->
+<!--        }-->
+<!--        #container {-->
+<!--            text-align: center;-->
+<!--            background: white;-->
+<!--            width: 40vw;-->
+<!--            margin: auto;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 2px 2px 5px #cac9c9;-->
+<!--        }-->
+<!--    </style>-->
+
+</head>
+<body>
+    <div id="container">
+        <h1>URL Shortener</h1>
+        <form id="shortenForm" action="/shorten" method="POST">
+            <label for="urlInput"></label><input type="text" name="url" id="urlInput" placeholder="Enter URL to shorten" required>
+            <button type="submit">Shorten</button>
+        </form>
+    </div>
+<div id="result"></div>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>URL Shortener</title>-->
+<!--    &lt;!&ndash; Include HTMX CDN &ndash;&gt;-->
+<!--    <script src="https://jsdelivr.net"></script>-->
+<!--    <style>-->
+<!--        h1 { background: linear-gradient(90deg, midnightblue, darkslateblue); color: aliceblue; width: 100vw; text-align: center; padding: 10px; font-family: fantasy; }-->
+<!--        #shortenForm { width: 50%; height: 10vh; padding: 10px; display: block; align-content: center; font-family: fantasy, sans-serif; background: cornflowerblue; border: 1px solid #d0d0d0; border-radius: 10px; text-align: center; box-shadow: 1px 1px 5px #474545; margin-left: auto; margin-right: auto; }-->
+<!--        input { padding: 10px; border-radius: 10px; font-family: fantasy, sans-serif; font-size: 20px; width: 20vw; margin-bottom: 10px; margin-top: 10px; }-->
+<!--        button { color: aliceblue; background: linear-gradient(90deg, midnightblue, darkslateblue); width: 20vw; font-family: fantasy, sans-serif; font-weight: bold; font-size: 20px; border-radius: 10px; padding: 10px; margin-bottom: 10px; margin-top: 10px; cursor: pointer; }-->
+<!--        #result { max-width: 800px; margin: 20px auto; text-align: center; font-family: sans-serif; }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>URL Shortener</h1>-->
+
+<!--&lt;!&ndash; HTMX powers the form submission asynchronously &ndash;&gt;-->
+<!--<form id="shortenForm" hx-post="/shorten" hx-target="#result" hx-swap="innerHTML">-->
+<!--    <label for="urlInput"></label>-->
+<!--    <input type="text" name="url" id="urlInput" placeholder="Enter URL to shorten" required>-->
+<!--    <button type="submit">Shorten</button>-->
+<!--</form>-->
+
+<!--<div id="result"></div>-->
+<!--</body>-->
+<!--</html>-->
